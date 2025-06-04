@@ -51,9 +51,7 @@ export namespace $Enums {
   export const AuthProvider: {
   EMAIL_PASSWORD: 'EMAIL_PASSWORD',
   GOOGLE: 'GOOGLE',
-  FACEBOOK: 'FACEBOOK',
-  GITHUB: 'GITHUB',
-  TWITTER: 'TWITTER'
+  GITHUB: 'GITHUB'
 };
 
 export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]

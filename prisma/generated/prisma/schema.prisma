@@ -11,9 +11,7 @@ datasource db {
 enum AuthProvider {
   EMAIL_PASSWORD
   GOOGLE
-  FACEBOOK
   GITHUB
-  TWITTER
 }
 
 model User {

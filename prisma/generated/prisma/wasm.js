@@ -192,9 +192,7 @@ exports.Prisma.NullsOrder = {
 exports.AuthProvider = exports.$Enums.AuthProvider = {
   EMAIL_PASSWORD: 'EMAIL_PASSWORD',
   GOOGLE: 'GOOGLE',
-  FACEBOOK: 'FACEBOOK',
-  GITHUB: 'GITHUB',
-  TWITTER: 'TWITTER'
+  GITHUB: 'GITHUB'
 };
 
 exports.Priority = exports.$Enums.Priority = {
