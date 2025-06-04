@@ -122,9 +122,55 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  firstname: 'firstname',
+  lastname: 'lastname',
   email: 'email',
   password: 'password',
+  isEmailVerified: 'isEmailVerified',
+  Provider: 'Provider',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RefrEshTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OauthacountScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TOdoScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  completed: 'completed',
+  priority: 'priority',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -139,9 +185,31 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.AuthProvider = exports.$Enums.AuthProvider = {
+  EMAIL_PASSWORD: 'EMAIL_PASSWORD',
+  GOOGLE: 'GOOGLE',
+  FACEBOOK: 'FACEBOOK',
+  GITHUB: 'GITHUB',
+  TWITTER: 'TWITTER'
+};
+
+exports.Priority = exports.$Enums.Priority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  verificationToken: 'verificationToken',
+  RefrEshToken: 'RefrEshToken',
+  Oauthacount: 'Oauthacount',
+  passwordResetToken: 'passwordResetToken',
+  TOdo: 'TOdo'
 };
 
 /**

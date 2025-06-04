@@ -1,30 +1,31 @@
 import { PrismaClient } from './generated/prisma';
-
+import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
-export default async function main() {
+
+
+export default async function main() {  
   await prisma.user.createMany({
-    data: [
-      {
-        name: 'Alice',
-        email: 'alice@example.com',
-        password: 'password123',
-      },
-      {
-        name: 'Bob',
-        email: 'bob@example.com',
-        password: 'password456',
-      },
-    ],
+    data: Array.from({ length: 100 }).map(() => ({
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      isEmailVerified: faker.datatype.boolean(),
+      Provider: faker.helpers.arrayElement([ 
+        "EMAIL_PASSWORD",
+        "GOOGLE",
+        "GITHUB",
+        ]),
+    })),
   });
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+}).finally(async () => {
+  await prisma.$disconnect();
+});
