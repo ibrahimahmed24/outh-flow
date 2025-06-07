@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './users/entities/user.entity';
-import { PrismaClient } from '../prisma/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly prisma: PrismaClient) {}
-  Getuser(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  // constructor(private readonly prisma: PrismaClient) {}
+  Getuser() {
+    return;
   }
 }
