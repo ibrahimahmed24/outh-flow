@@ -39,7 +39,7 @@ enum AuthProvider {
       expiresAt DateTime
 
       userId    String   @unique
-      User User @relation(fields: [userId], references: [id] , onDelete: Cascade)
+      User User @relation(fields: [userId], references: [id] , onDelete:Cascade)
       createdAt DateTime @default(now())
       
 
