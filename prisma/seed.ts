@@ -16,7 +16,7 @@
 //         "EMAIL_PASSWORD",
 //         "GOOGLE",
 //         "GITHUB",
-//         ]),
+//         ]),email-verification.hbs
 //     })),
 //   });
 // }

@@ -1,108 +1,268 @@
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
+  // Connection URLs are no longer supported in schema.prisma (Prisma 7+).
+  // Move your DATABASE_URL (and any shadow DB URL) to prisma.config.ts and
+  // provide an `adapter` for a direct DB connection or `accelerateUrl` for
+  // Accelerate when constructing PrismaClient.
+  // See: https://pris.ly/d/config-datasource and https://pris.ly/d/prisma7-client-config
 }
+
+// ==============================
+// ENUMS
+// ==============================
 enum AuthProvider {
   EMAIL_PASSWORD
   GOOGLE
   GITHUB
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  EXPIRED
+  FAILED
+  REFUNDED
+}
+
+// Payment Status Enum
+enum PaymentStatus {
+  PAID
+  FAILED
+  REFUNDED
+}
+
+
+// ==============================
+// USER & AUTH MODELS
+// ==============================
+model User {
+  id                  String              @id @default(uuid())
+  firstname           String?
+  lastname            String?
+  email               String              @unique
+  password            String
+  isEmailVerified     Boolean             @default(false)
+  Provider            AuthProvider        @default(EMAIL_PASSWORD)
+
+  verificationToken   VerificationToken[]
+  refreshToken        RefreshToken[]
+  oauthAccount        OauthAccount[]
+  passwordResetToken  PasswordResetToken[]
+  role                Role                @default(USER)
+  todos               Todo[]
+  cart                Cart?
+  orders              Order[]
+   wishlist          Wishlist[]
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  @@map("users")
+  CartItem CartItem[]
+}
+
+model VerificationToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("verification_tokens")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model OauthAccount {
+  id                String        @id @default(uuid())
+  provider          AuthProvider
+  providerAccountId String
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime      @default(now())
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("oauth_accounts")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+// ==============================
+// TODO MODEL
+// ==============================
+model Todo {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  completed   Boolean   @default(false)
+  priority    Priority  @default(MEDIUM)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("todos")
+}
+
+// ==============================
+// PRODUCT & CATEGORY MODELS
+// ==============================
+model Product {
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  stock       Int           @default(0)
+  imageUrl    String?
+  categoryId  String?
+  category    Category?     @relation(fields: [categoryId], references: [id])
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+   wishlist          Wishlist[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Category {
+   id       String    @id @default(uuid())
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// ==============================
+// CART & ORDER MODELS
+// ==============================
+model Cart {
+  id        String      @id @default(uuid())
+  userId    String      @unique
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("carts")
+}
+
+model CartItem {
+  id         String    @id @default(uuid())
+  cartId     String
+  productId  String
+  userId     String
+  quantity   Int       @default(1)
+  price      Float
+  cart       Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product    Product   @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt  DateTime  @default(now())
+
+  @@index([cartId])
+  @@index([productId])
+  @@map("cart_items")
+}
+model Wishlist {
+  id         String   @id @default(uuid())
+  userId     String
+  productId  String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) 
+}
+
+
+model Order {
+  id          String       @id @default(uuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalPrice  Float
+  price      Float
+  status      OrderStatus  @default(PENDING)
+  items       OrderItem[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([userId])
+  @@unique([userId, id])
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String    @id @default(uuid())
+  orderId    String
+  productId  String
+  quantity   Int
+  price      Float
+  order      Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product    Product   @relation(fields: [productId], references: [id])
+  createdAt  DateTime  @default(now())
+
+  @@index([orderId])
+  @@index([productId])
   
-  }
-   model User {
-      id            String    @id @default(uuid())
-      firstname     String?
-      lastname      String?
-      email         String    @unique
-      password      String
-   isEmailVerified  Boolean @default(false)
-      Provider      AuthProvider @default(EMAIL_PASSWORD)
-      verificationToken verificationToken[]
-      refreshToken  RefrEshToken[]
-      oauthacount    Oauthacount[]
-      passwordResetToken passwordResetToken[]
-      todos         TOdo[]
+  @@map("order_items")
+}
+model Payment {
+  id               String   @id @default(cuid())
+  orderId          String
+  userId           String
+  amount           Int
+  currency         String
+  status           PaymentStatus
+  stripeSessionId  String
+  paymentIntentId  String @unique 
+  failureReason    String?  // optional
+  refundId         String?  // optional
 
-   createdAt         DateTime @default(now())
-    updatedAt        DateTime @updatedAt
-    
-            
-            @@map("users")
-      }      
-
-   model verificationToken {
-      id        String   @id @default(uuid())
-      token     String   @unique
-      expiresAt DateTime
-
-      userId    String   @unique
-      User User @relation(fields: [userId], references: [id] , onDelete:Cascade)
-      createdAt DateTime @default(now())
-      
-
-      @@index([userId])
-      @@map("verification_tokens")
-   }               
-
-   model RefrEshToken{
-      id        String   @id @default(uuid())
-      token     String   @unique
-      expiresAt DateTime
-
-      userId    String
-      User User @relation(fields: [userId], references: [id] , onDelete: Cascade)
-      createdAt DateTime @default(now())
-
-      @@index([userId])
-      @@map("refresh_tokens")
-   }
-
-   model Oauthacount {
-        id        String   @id @default(uuid())
-       provider  AuthProvider
-      providerAccountId String
-      userId    String
-      User User @relation(fields: [userId], references: [id] , onDelete: Cascade)
-      createdAt DateTime @default(now())
-
-
-      @@unique([provider, providerAccountId])
-      @@index([userId])
-      @@map("oauth_accounts")
-   }
-
-   model passwordResetToken {
-      id        String   @id @default(uuid())
-      token     String   @unique
-      expiresAt DateTime
-
-      userId    String
-      User User @relation(fields: [userId], references: [id] , onDelete: Cascade)
-      createdAt DateTime @default(now())
-
-      @@index([userId])
-      @@map("password_reset_tokens")
-   }
-   model TOdo {
-      id        String   @id @default(uuid())
-      title     String
-      description String?
-      completed Boolean @default(false)
-      priority   Priority @default(MEDIUM)
-      userId    String
-      User User @relation(fields: [userId], references: [id] , onDelete: Cascade)
-      createdAt DateTime @default(now())
-      updatedAt DateTime @updatedAt
-
-      @@index([userId])
-      @@map("todos")
-   }
-   enum Priority {
-      LOW
-      MEDIUM
-      HIGH
-   }
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  @@index([orderId])
+  @@index([userId])
+  @@map("payments")
+}
