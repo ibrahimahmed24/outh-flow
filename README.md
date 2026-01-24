@@ -1,13 +1,10 @@
 # E-commerce API
 
-This is a **full-featured E-commerce API** built with **NestJS**, **Prisma**, and **PostgreSQL**.  
-It supports **Products, Categories, Cart, Orders**, and **Stripe Webhook** for payment.  
+This is a **full-featured E-commerce API** built with **NestJS**, **Prisma**, and **PostgreSQL**.
+It supports **Products, Categories, Cart, Orders**, and **Stripe Webhook** for payment.
 It also includes **Auth** with **Register, Login, Refresh Token, Reset Password**, and **RBAC (Admin/User)**.
 
----
-
 ## 🧱 Tech Stack
-
 - **NestJS**
 - **TypeScript**
 - **Prisma**
@@ -17,10 +14,7 @@ It also includes **Auth** with **Register, Login, Refresh Token, Reset Password*
 - **JWT Authentication**
 - **RBAC (Admin/User)**
 
----
-
 ## 🚀 Features
-
 ### ✅ Authentication
 - Register
 - Login
@@ -41,13 +35,11 @@ It also includes **Auth** with **Register, Login, Refresh Token, Reset Password*
 ### 🔐 Authorization
 - RBAC (Admin / User)
 
----
-
 ## 📌 Installation
-    
- 
-### 1) Clone the repo
 
 ```bash
 git clone https://github.com/YourUsername/YourRepoName.git
 cd YourRepoName
+npm install
+npx prisma migrate dev
+npm run dev
