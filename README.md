@@ -42,7 +42,7 @@ A **full-featured E-commerce REST API** built with **NestJS**, **Prisma ORM**, a
 ```
 E-Commerce API/
 ├── src/
-│   ├── aoth/                    # Authentication module
+│   ├── auth/                    # Authentication module
 │   │   ├── auth.controller.ts
 │   │   ├── auth.service.ts
 │   │   ├── auth.module.ts
