@@ -42,20 +42,21 @@ A **full-featured E-commerce REST API** built with **NestJS**, **Prisma ORM**, a
 ```
 aoth-flow/
 ├── src/
-│   ├── auth/                    # Authentication module (تم تصحيح: aoth → auth)
-│   │   ├── auth.controller.ts (تصحيح: aoth.controller.ts)
-│   │   ├── auth.service.ts (تصحيح: aoth.service.ts)
-│   │   ├── auth.module.ts (تصحيح: aoth.module.ts)
+│   ├── aoth/                    # Authentication module
+│   │   ├── aoth.controller.ts
+│   │   ├── aoth.service.ts
+│   │   ├── aoth.module.ts
 │   │   ├── strategies/
 │   │   │   └── jwt.strategy.ts
 │   │   └── dto/
 │   │       ├── register.dto.ts
-│   │       ├── login.dto.ts (تصحيح: lgin.dto.ts)
-│   │       ├── verify-email.dto.ts (تصحيح: VerifyEmaildto.ts)
-│   │       ├── reset-password.dto.ts (تصحيح: Resetpssword.dto.ts و resetpassword.dto.ts)
-│   │       ├── refresh-token.dto.ts (تصحيح: refeshtoken.dto.ts)
+│   │       ├── lgin.dto.ts
+│   │       ├── VerifyEmaildto.ts
+│   │       ├── Resetpssword.dto.ts
+│   │       ├── resetpassword.dto.ts
+│   │       ├── refeshtoken.dto.ts
 │   │       ├── logout.dto.ts
-│   │       └── resend-verification-email.dto.ts (تصحيح: resend-verificationemail.dto.ts)
+│   │       └── resend-verificationemail.dto.ts
 │   ├── users/                   # Users module
 │   │   ├── users.controller.ts
 │   │   ├── users.service.ts
@@ -77,8 +78,8 @@ aoth-flow/
 │   │   ├── category.service.ts
 │   │   ├── category.module.ts
 │   │   └── dto/
-│   │       ├── create-category.dto.ts (تصحيح: create-product.dto.ts)
-│   │       └── update-category.dto.ts (تصحيح: update-product.dto.ts)
+│   │       ├── create-product.dto.ts
+│   │       └── update-product.dto.ts
 │   ├── cart/                    # Cart module
 │   │   ├── cart.controller.ts
 │   │   ├── cart.service.ts
@@ -101,20 +102,20 @@ aoth-flow/
 │   │   └── dto/
 │   │       ├── create-payment.dto.ts
 │   │       └── refund-payment.dto.ts
-│   ├── wishlist/                # Wishlist module (تصحيح: wishlis → wishlist)
-│   │   ├── wishlist.controller.ts (تصحيح: wishlis.controller.ts)
-│   │   ├── wishlist.service.ts (تصحيح: wishlis.service.ts)
-│   │   └── wishlist.module.ts
+│   ├── wishlis/                 # Wishlist module
+│   │   ├── wishlis.controller.ts
+│   │   ├── wishlis.service.ts
+│   │   └── wishlis.module.ts
 │   ├── mail/                    # Email service
 │   │   ├── mail.service.ts
 │   │   └── mail.module.ts
 │   ├── tokens/                  # Token services
 │   │   └── verification-token.service.ts
 │   ├── decorators/              # Custom decorators
-│   │   ├── get-user.decorator.ts (تصحيح: GetUser.Decorator.ts)
+│   │   ├── GetUser.Decorator.ts
 │   │   └── roles.decorator.ts
-│   ├── guards/                  # Authentication guards (تصحيح: gards → guards)
-│   │   ├── jwt-auth.guard.ts (تصحيح: jwt-aoth.gards.guard.ts)
+│   ├── gards/                   # Authentication guards
+│   │   ├── jwt-aoth.gards.guard.ts
 │   │   └── roles.guard.ts
 │   ├── prisma/                  # Prisma service
 │   │   └── prisma.service.ts
