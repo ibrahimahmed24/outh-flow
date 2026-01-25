@@ -40,12 +40,12 @@ A **full-featured E-commerce REST API** built with **NestJS**, **Prisma ORM**, a
 ## 📁 Project Structure
 
 ```
-aoth-flow/
+E-Commerce API/
 ├── src/
 │   ├── aoth/                    # Authentication module
-│   │   ├── aoth.controller.ts
-│   │   ├── aoth.service.ts
-│   │   ├── aoth.module.ts
+│   │   ├── auth.controller.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.module.ts
 │   │   ├── strategies/
 │   │   │   └── jwt.strategy.ts
 │   │   └── dto/
